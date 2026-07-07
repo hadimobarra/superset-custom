@@ -71,7 +71,7 @@ services:
       - /bin/bash
       - -c
       - |
-        url="http://host.docker.internal:9000/static/assets/manifest.json"
+        url="http://superset-node:9000/static/assets/manifest.json"
         max_attempts=300  # ~10 minutes at 2s intervals; first build can be slow
         echo "Waiting for webpack dev server at $$url..."
         attempt=0

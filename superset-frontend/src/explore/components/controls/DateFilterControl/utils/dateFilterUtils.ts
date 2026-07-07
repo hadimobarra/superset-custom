@@ -29,6 +29,13 @@ import {
 } from '.';
 import { FrameType } from '../types';
 
+const PERSIAN_RANGE_VALUES = new Set([
+  'Last 7 days',
+  'Last 30 days',
+  'Last 90 days',
+  'Last year',
+]);
+
 export const guessFrame = (timeRange: string): FrameType => {
   if (COMMON_RANGE_VALUES_SET.has(timeRange)) {
     return 'Common';
@@ -38,6 +45,9 @@ export const guessFrame = (timeRange: string): FrameType => {
   }
   if (CURRENT_RANGE_VALUES_SET.has(timeRange)) {
     return 'Current';
+  }
+  if (PERSIAN_RANGE_VALUES.has(timeRange)) {
+    return 'Persian';
   }
   if (timeRange === NO_TIME_RANGE) {
     return 'No filter';

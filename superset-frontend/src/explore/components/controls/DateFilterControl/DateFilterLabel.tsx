@@ -40,6 +40,7 @@ import ControlHeader from 'src/explore/components/ControlHeader';
 import { Icons } from '@superset-ui/core/components/Icons';
 import { useDebouncedEffect } from 'src/explore/exploreUtils';
 import { noOp } from 'src/utils/common';
+import { gregorianToPersian, formatPersianDate } from 'src/utils/persianCalendar';
 import ControlPopover from '../ControlPopover/ControlPopover';
 
 import { DateFilterControlProps, FrameType } from './types';
@@ -57,6 +58,7 @@ import {
   DateLabel,
 } from './components';
 import { CurrentCalendarFrame } from './components/CurrentCalendarFrame';
+import { PersianCalendarFrame } from './components/PersianCalendarFrame';
 
 const StyledRangeType = styled(Select)`
   width: 272px;
@@ -139,6 +141,29 @@ const getTooltipTitle = (
   ) : (
     range || null
   );
+
+const PERSIAN_DIGITS = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
+const toPersianDigits = (value: string): string =>
+  value.replace(/\d/g, digit => PERSIAN_DIGITS[Number(digit)]);
+
+const convertGregorianRangeToPersian = (range: string): string => {
+  // Match patterns like "2026-06-07 <= col < 2026-07-07" or "2026-06-07 - 2026-07-07"
+  const datePattern = /(\d{4})-(\d{2})-(\d{2})/g;
+  const persianRange = range.replace(datePattern, (match, year, month, day) => {
+    try {
+      const persianDate = gregorianToPersian(
+        parseInt(year, 10),
+        parseInt(month, 10),
+        parseInt(day, 10),
+      );
+      return formatPersianDate(persianDate.year, persianDate.month, persianDate.day);
+    } catch {
+      return match;
+    }
+  });
+  return toPersianDigits(persianRange);
+};
 
 export default function DateFilterLabel(props: DateFilterControlProps) {
   const {
@@ -296,6 +321,12 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       {frame === 'Advanced' && (
         <AdvancedFrame value={timeRangeValue} onChange={setTimeRangeValue} />
       )}
+      {frame === 'Persian' && (
+        <PersianCalendarFrame
+          value={timeRangeValue}
+          onChange={setTimeRangeValue}
+        />
+      )}
       {frame === 'Custom' && (
         <CustomFrame
           value={timeRangeValue}
@@ -309,7 +340,11 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
         <div className="section-title">{t('Actual time range')}</div>
         {validTimeRange && (
           <div>
-            {evalResponse === 'No filter' ? t('No filter') : evalResponse}
+            {evalResponse === 'No filter'
+              ? t('No filter')
+              : frame === 'Persian'
+                ? convertGregorianRangeToPersian(evalResponse)
+                : evalResponse}
           </div>
         )}
         {!validTimeRange && (
