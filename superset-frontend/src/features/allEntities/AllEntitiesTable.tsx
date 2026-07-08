@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { extendedDayjs } from '@superset-ui/core/utils/dates';
 import { t } from '@apache-superset/core/translation';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import { styled } from '@apache-superset/core/theme';
 import {
   TableView,
@@ -74,7 +74,7 @@ export default function AllEntitiesTable({
   const renderTable = (type: objectType) => {
     const data = objects[type].map((o: TaggedObject) => ({
       [type]: <Typography.Link href={o.url}>{o.name}</Typography.Link>,
-      modified: o.changed_on ? extendedDayjs.utc(o.changed_on).fromNow() : '',
+      modified: o.changed_on ? formatDateToPersian(String(o.changed_on), true) : '',
       tags: o.tags,
       owners: o.owners,
     }));

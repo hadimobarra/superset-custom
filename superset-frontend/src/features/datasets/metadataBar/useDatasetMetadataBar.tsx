@@ -26,6 +26,7 @@ import {
   MetadataType,
 } from '@superset-ui/core/components/MetadataBar/ContentType';
 import { isEmbedded } from 'src/dashboard/util/isEmbedded';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 export interface UseDatasetMetadataBarProps {
   dataset?: Dataset;
@@ -52,6 +53,10 @@ export const useDatasetMetadataBar = ({
         created_by,
         owners,
       } = dataset;
+      const rawDataset = dataset as typeof dataset & {
+        changed_on?: string;
+        created_on?: string;
+      };
       const notAvailable = t('Not available');
       const createdBy =
         `${created_by?.first_name ?? ''} ${
@@ -70,14 +75,18 @@ export const useDatasetMetadataBar = ({
       });
       items.push({
         type: MetadataType.LastModified,
-        value: changed_on_humanized || notAvailable,
+        value: rawDataset.changed_on
+          ? formatDateToPersian(rawDataset.changed_on, true)
+          : changed_on_humanized || notAvailable,
         modifiedBy,
       });
       items.push({
         type: MetadataType.Owner,
         createdBy,
         owners: formattedOwners,
-        createdOn: created_on_humanized || notAvailable,
+        createdOn: rawDataset.created_on
+          ? formatDateToPersian(rawDataset.created_on, true)
+          : created_on_humanized || notAvailable,
       });
       if (description) {
         items.push({

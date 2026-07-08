@@ -17,7 +17,7 @@
  * under the License.
  */
 import { useEffect, useState } from 'react';
-import { extendedDayjs } from '@superset-ui/core/utils/dates';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import { t } from '@apache-superset/core/translation';
 import { styled } from '@apache-superset/core/theme';
 import { setItem, LocalStorageKeys } from 'src/utils/localStorageHelpers';
@@ -101,7 +101,7 @@ const getEntityUrl = (entity: ActivityObject) => {
 
 const getEntityLastActionOn = (entity: ActivityObject) => {
   if ('time' in entity) {
-    return t('Viewed %s', (extendedDayjs(entity.time) as any).fromNow());
+    return t('Viewed %s', formatDateToPersian(entity.time, true));
   }
 
   let time: number | string | undefined | null;
@@ -112,7 +112,7 @@ const getEntityLastActionOn = (entity: ActivityObject) => {
   if ('changed_on_utc' in entity) time = entity.changed_on_utc;
   return t(
     'Modified %s',
-    time == null ? UNKNOWN_TIME : (extendedDayjs(time) as any).fromNow(),
+    time == null ? UNKNOWN_TIME : formatDateToPersian(time, true),
   );
 };
 

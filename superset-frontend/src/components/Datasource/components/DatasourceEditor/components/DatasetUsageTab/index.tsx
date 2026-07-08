@@ -261,6 +261,7 @@ const DatasetUsageTab = ({
           <ModifiedInfo
             date={record.changed_on_delta_humanized}
             user={record.changed_by || undefined}
+            rawDate={record.changed_on}
           />
         ),
         sorter: true,

@@ -667,10 +667,11 @@ function DatabaseList({
             original: {
               changed_by: changedBy,
               changed_on_delta_humanized: changedOn,
+              changed_on: rawChangedOn,
             },
           },
         }: CellProps<ConnectionItem>) => (
-          <ModifiedInfo date={changedOn || ''} user={changedBy} />
+          <ModifiedInfo date={changedOn || ''} user={changedBy} rawDate={rawChangedOn} />
         ),
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',

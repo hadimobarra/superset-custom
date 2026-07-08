@@ -215,3 +215,43 @@ export function isValidPersianDate(
 ): boolean {
   return isValidJalaaliDate(year, month, day);
 }
+
+// Convert digits to Persian numerals
+const PERSIAN_DIGITS = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
+export function toPersianDigits(value: string): string {
+  return value.replace(/\d/g, digit => PERSIAN_DIGITS[Number(digit)]);
+}
+
+// Format a Gregorian date string/Date to Persian date for UI display
+export function formatDateToPersian(dateInput: string | number | Date | null | undefined, includeTime = false): string {
+  if (!dateInput) return '-';
+  
+  try {
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return '-';
+    
+    const persianDate = gregorianToPersian(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate(),
+    );
+    
+    const dateStr = formatPersianDate(persianDate.year, persianDate.month, persianDate.day);
+    
+    if (includeTime) {
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const seconds = date.getSeconds().toString().padStart(2, '0');
+      return `${dateStr} ${toPersianDigits(hours)}:${toPersianDigits(minutes)}:${toPersianDigits(seconds)}`;
+    }
+    
+    return dateStr;
+  } catch {
+    return '-';
+  }
+}
+
+export function formatDateForDisplay(dateInput: string | number | Date | null | undefined): string {
+  return formatDateToPersian(dateInput, true);
+}

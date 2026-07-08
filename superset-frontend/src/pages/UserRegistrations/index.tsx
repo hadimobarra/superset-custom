@@ -30,6 +30,7 @@ import {
 import { DeleteModal } from '@superset-ui/core/components';
 import { ActionProps, ActionsBar } from 'src/components/ListView/ActionsBar';
 import SubMenu from 'src/features/home/SubMenu';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 const PAGE_SIZE = 25;
 
@@ -113,7 +114,7 @@ export default function UserRegistrations() {
         accessor: 'registration_date',
         id: 'registration_date',
         Header: t('Registration date'),
-        Cell: ({ row: { original } }: any) => original.registration_date,
+        Cell: ({ row: { original } }: any) => formatDateToPersian(original.registration_date, true),
       },
       {
         id: 'actions',

@@ -27,7 +27,7 @@ import {
 } from 'react';
 
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { extendedDayjs } from '@superset-ui/core/utils/dates';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import { t } from '@apache-superset/core/translation';
 import {
   Behavior,
@@ -375,10 +375,10 @@ const SliceHeaderControls = (
   const isTable = slice.viz_type === VizType.Table;
   const isPivotTable = slice.viz_type === VizType.PivotTable;
   const cachedWhen = (cachedDttm || []).map(itemCachedDttm =>
-    (extendedDayjs.utc(itemCachedDttm) as any).fromNow(),
+    formatDateToPersian(itemCachedDttm, true),
   );
   const updatedWhen = updatedDttm
-    ? (extendedDayjs.utc(updatedDttm) as any).fromNow()
+    ? formatDateToPersian(updatedDttm, true)
     : '';
   const getCachedTitle = (itemCached: boolean, index: number) => {
     if (itemCached) {
@@ -407,7 +407,7 @@ const SliceHeaderControls = (
   ));
 
   const queriedLabel = queriedDttm
-    ? extendedDayjs.utc(queriedDttm).local().format('L LTS')
+    ? formatDateToPersian(queriedDttm, true)
     : null;
   const fullscreenLabel = isFullSize
     ? t('Exit fullscreen')

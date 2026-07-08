@@ -18,6 +18,7 @@
  */
 import { getTimeFormatter, TimeFormats } from '@superset-ui/core';
 import NullCell from '../NullCell';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 export interface TimeCellProps {
   format?: string;
@@ -29,7 +30,9 @@ function TimeCell({
   value,
 }: TimeCellProps) {
   if (value) {
-    return <span>{getTimeFormatter(format).format(value)}</span>;
+    // Use Persian date formatting for UI display
+    const date = value instanceof Date ? value : new Date(value);
+    return <span>{formatDateToPersian(date, true)}</span>;
   }
   return <NullCell />;
 }

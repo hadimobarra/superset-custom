@@ -43,6 +43,7 @@ import CodeSyntaxHighlighter, {
 } from '@superset-ui/core/components/CodeSyntaxHighlighter';
 import { DATETIME_WITH_TIME_ZONE, TIME_WITH_MS } from 'src/constants';
 import { QueryObject, QueryObjectColumns } from 'src/views/CRUD/types';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 import { Icons } from '@superset-ui/core/components/Icons';
 import QueryPreviewModal from 'src/features/queries/QueryPreviewModal';
@@ -234,17 +235,7 @@ function QueryList({ addDangerToast }: QueryListProps) {
             original: { start_time },
           },
         }: any) => {
-          const start = extendedDayjs.utc(start_time).local();
-          const formattedStartTimeData = start
-            .format(DATETIME_WITH_TIME_ZONE)
-            .split(' ');
-
-          const formattedStartTime = (
-            <>
-              {formattedStartTimeData[0]} <br />
-              {formattedStartTimeData[1]}
-            </>
-          );
+          const formattedStartTime = formatDateToPersian(start_time, true);
           return formattedStartTime;
         },
         id: QueryObjectColumns.StartTime,

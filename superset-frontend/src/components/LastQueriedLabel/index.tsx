@@ -19,7 +19,7 @@
 import { FC } from 'react';
 import { t } from '@apache-superset/core/translation';
 import { css, useTheme } from '@apache-superset/core/theme';
-import { extendedDayjs } from '@superset-ui/core/utils/dates';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 interface LastQueriedLabelProps {
   queriedDttm: string | null;
@@ -32,12 +32,7 @@ const LastQueriedLabel: FC<LastQueriedLabelProps> = ({ queriedDttm }) => {
     return null;
   }
 
-  const parsedDate = extendedDayjs.utc(queriedDttm);
-  if (!parsedDate.isValid()) {
-    return null;
-  }
-
-  const formattedTime = parsedDate.local().format('L LTS');
+  const formattedTime = formatDateToPersian(queriedDttm, true);
 
   return (
     <div

@@ -38,6 +38,7 @@ import { TaggedObject, TaggedObjects } from 'src/types/TaggedObject';
 import { findPermission } from 'src/utils/findPermission';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/dashboard/types';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 const additionalItemsStyles = (theme: SupersetTheme) => css`
   display: flex;
@@ -124,17 +125,23 @@ function AllEntities() {
     items.push(description);
   }
 
+  const rawTag = tag as (typeof tag & { changed_on?: string; created_on?: string }) | null;
+
   const owner: Owner = {
     type: MetadataType.Owner,
-    createdBy: getOwnerName(tag?.created_by),
-    createdOn: tag?.created_on_delta_humanized || '',
+    createdBy: getOwnerName(rawTag?.created_by),
+    createdOn: rawTag?.created_on
+      ? formatDateToPersian(rawTag.created_on, true)
+      : rawTag?.created_on_delta_humanized || '',
   };
   items.push(owner);
 
   const lastModified: LastModified = {
     type: MetadataType.LastModified,
-    value: tag?.changed_on_delta_humanized || '',
-    modifiedBy: getOwnerName(tag?.changed_by),
+    value: rawTag?.changed_on
+      ? formatDateToPersian(rawTag.changed_on, true)
+      : rawTag?.changed_on_delta_humanized || '',
+    modifiedBy: getOwnerName(rawTag?.changed_by),
   };
   items.push(lastModified);
 

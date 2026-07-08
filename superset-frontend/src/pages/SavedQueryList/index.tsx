@@ -443,10 +443,11 @@ function SavedQueryList({
             original: {
               changed_by: changedBy,
               changed_on_delta_humanized: changedOn,
+              changed_on: rawChangedOn,
             },
           },
         }: SavedQueryCellProps) => (
-          <ModifiedInfo user={changedBy ?? undefined} date={changedOn} />
+          <ModifiedInfo user={changedBy ?? undefined} date={changedOn} rawDate={rawChangedOn} />
         ),
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',

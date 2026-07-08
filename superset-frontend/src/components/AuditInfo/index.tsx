@@ -19,12 +19,14 @@
 import getOwnerName from 'src/utils/getOwnerName';
 import { t } from '@apache-superset/core/translation';
 import { Tooltip } from '@superset-ui/core/components';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import type { AuditInfoProps } from './types';
 
-export const ModifiedInfo = ({ user, date }: AuditInfoProps) => {
+export const ModifiedInfo = ({ user, date, rawDate }: AuditInfoProps) => {
+  const displayDate = rawDate ? formatDateToPersian(rawDate, true) : date;
   const dateSpan = (
     <span className="no-wrap" data-test="audit-info-date">
-      {date}
+      {displayDate}
     </span>
   );
 
@@ -40,10 +42,11 @@ export const ModifiedInfo = ({ user, date }: AuditInfoProps) => {
   return dateSpan;
 };
 
-export const CreatedInfo = ({ user, date }: AuditInfoProps) => {
+export const CreatedInfo = ({ user, date, rawDate }: AuditInfoProps) => {
+  const displayDate = rawDate ? formatDateToPersian(rawDate, true) : date;
   const dateSpan = (
     <span className="no-wrap" data-test="audit-info-date">
-      {date}
+      {displayDate}
     </span>
   );
 

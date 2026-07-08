@@ -490,10 +490,11 @@ function ChartList(props: ChartListProps) {
           row: {
             original: {
               changed_on_delta_humanized: changedOn,
+              changed_on: rawChangedOn,
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: any) => <ModifiedInfo date={changedOn} user={changedBy} rawDate={rawChangedOn} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',

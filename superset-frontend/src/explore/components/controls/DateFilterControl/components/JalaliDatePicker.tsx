@@ -106,7 +106,6 @@ const PickerContainer = styled.div<{ $isRTL: boolean }>(
       width: 100%;
       max-width: 100%;
       overflow: visible;
-      transform: translate(0, -50px)
     }
 
     .custom-rmdp .rmdp-calendar {

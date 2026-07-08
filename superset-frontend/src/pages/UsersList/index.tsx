@@ -42,6 +42,7 @@ import {
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import { deleteUser } from 'src/features/users/utils';
 import { fetchPaginatedData } from 'src/utils/fetchOptions';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import type { UsersListProps, Group, Role, UserObject } from './types';
 
 const PAGE_SIZE = 25;
@@ -305,7 +306,7 @@ function UsersList({ user }: UsersListProps) {
           row: {
             original: { created_on },
           },
-        }: any) => created_on,
+        }: any) => formatDateToPersian(created_on, true),
       },
       {
         accessor: 'changed_on',
@@ -316,7 +317,7 @@ function UsersList({ user }: UsersListProps) {
           row: {
             original: { changed_on },
           },
-        }: any) => changed_on,
+        }: any) => formatDateToPersian(changed_on, true),
       },
       {
         accessor: 'last_login',
@@ -327,7 +328,7 @@ function UsersList({ user }: UsersListProps) {
           row: {
             original: { last_login },
           },
-        }: any) => last_login,
+        }: any) => formatDateToPersian(last_login, true),
       },
       {
         Cell: ({ row: { original } }: any) => {

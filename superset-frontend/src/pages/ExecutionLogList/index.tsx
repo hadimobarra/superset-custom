@@ -36,6 +36,7 @@ import {
 } from 'src/views/CRUD/hooks';
 import { AlertObject, LogObject } from 'src/features/alerts/types';
 import { AnnotationObject } from 'src/features/annotations/types';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 const PAGE_SIZE = 25;
 
@@ -125,7 +126,7 @@ function ExecutionLog({
             original: { scheduled_dttm: scheduledDttm },
           },
         }: any) =>
-          dayjs(new Date(scheduledDttm)).format('YYYY-MM-DD hh:mm:ss a'),
+          formatDateToPersian(scheduledDttm, true),
         accessor: 'scheduled_dttm',
         Header: t('Scheduled at (UTC)'),
         id: 'scheduled_dttm',
@@ -137,7 +138,7 @@ function ExecutionLog({
           },
         }: {
           row: { original: AnnotationObject };
-        }) => dayjs(new Date(startDttm)).format('YYYY-MM-DD hh:mm:ss a'),
+        }) => formatDateToPersian(startDttm, true),
         Header: t('Start at (UTC)'),
         accessor: 'start_dttm',
         id: 'start_dttm',

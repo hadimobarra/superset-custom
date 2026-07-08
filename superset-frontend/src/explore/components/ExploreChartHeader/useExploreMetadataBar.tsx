@@ -23,6 +23,7 @@ import MetadataBar, {
   MetadataType,
 } from '@superset-ui/core/components/MetadataBar';
 import { ExplorePageInitialData } from 'src/explore/types';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 export const useExploreMetadataBar = (
   metadata: ExplorePageInitialData['metadata'],
@@ -55,14 +56,18 @@ export const useExploreMetadataBar = (
     }
     items.push({
       type: MetadataType.LastModified as const,
-      value: metadata.changed_on_humanized,
+      value: (metadata as any).changed_on
+        ? formatDateToPersian((metadata as any).changed_on, true)
+        : metadata.changed_on_humanized,
       modifiedBy: metadata.changed_by || t('Not available'),
     });
     items.push({
       type: MetadataType.Owner as const,
       createdBy: metadata.created_by || t('Not available'),
       owners: metadata.owners.length > 0 ? metadata.owners : t('None'),
-      createdOn: metadata.created_on_humanized,
+      createdOn: (metadata as any).created_on
+        ? formatDateToPersian((metadata as any).created_on, true)
+        : metadata.created_on_humanized,
     });
     if (slice?.description) {
       items.push({

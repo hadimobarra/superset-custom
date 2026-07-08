@@ -812,10 +812,11 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
             original: {
               changed_on_delta_humanized: changedOn,
               changed_by: changedBy,
+              ...rest
             },
           },
         }: CellProps<Dataset>) => (
-          <ModifiedInfo date={changedOn} user={changedBy} />
+          <ModifiedInfo date={changedOn} user={changedBy} rawDate={(rest as any).changed_on} />
         ),
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',

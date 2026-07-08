@@ -29,6 +29,7 @@ import {
 } from '@superset-ui/core/components';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import { ApiKeyCreateModal } from './ApiKeyCreateModal';
+import { formatDateForDisplay } from 'src/utils/persianCalendar';
 
 export interface ApiKey {
   uuid: string;
@@ -103,11 +104,7 @@ export function ApiKeyList() {
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
+    return formatDateForDisplay(dateString);
   };
 
   const getStatusBadge = (key: ApiKey) => {

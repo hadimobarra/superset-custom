@@ -23,32 +23,43 @@ import MetadataBar, {
   MetadataType,
 } from '@superset-ui/core/components/MetadataBar';
 import getOwnerName from 'src/utils/getOwnerName';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 export const useDashboardMetadataBar = (dashboardInfo: DashboardInfo) => {
+  const rawInfo = dashboardInfo as DashboardInfo & {
+    changed_on?: string;
+    created_on?: string;
+  };
   const items = useMemo(
     () => [
       {
         type: MetadataType.LastModified as const,
-        value: dashboardInfo.changed_on_delta_humanized,
+        value: rawInfo.changed_on
+          ? formatDateToPersian(rawInfo.changed_on, true)
+          : rawInfo.changed_on_delta_humanized,
         modifiedBy:
-          getOwnerName(dashboardInfo.changed_by) || t('Not available'),
+          getOwnerName(rawInfo.changed_by) || t('Not available'),
       },
       {
         type: MetadataType.Owner as const,
-        createdBy: getOwnerName(dashboardInfo.created_by) || t('Not available'),
+        createdBy: getOwnerName(rawInfo.created_by) || t('Not available'),
         owners:
-          dashboardInfo.owners.length > 0
-            ? dashboardInfo.owners.map(getOwnerName)
+          rawInfo.owners.length > 0
+            ? rawInfo.owners.map(getOwnerName)
             : t('None'),
-        createdOn: dashboardInfo.created_on_delta_humanized,
+        createdOn: rawInfo.created_on
+          ? formatDateToPersian(rawInfo.created_on, true)
+          : rawInfo.created_on_delta_humanized,
       },
     ],
     [
-      dashboardInfo.changed_by,
-      dashboardInfo.changed_on_delta_humanized,
-      dashboardInfo.created_by,
-      dashboardInfo.created_on_delta_humanized,
-      dashboardInfo.owners,
+      rawInfo.changed_by,
+      rawInfo.changed_on,
+      rawInfo.changed_on_delta_humanized,
+      rawInfo.created_by,
+      rawInfo.created_on,
+      rawInfo.created_on_delta_humanized,
+      rawInfo.owners,
     ],
   );
 

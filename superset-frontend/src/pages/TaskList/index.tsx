@@ -361,11 +361,12 @@ function TaskList({ addDangerToast, addSuccessToast, user }: TaskListProps) {
           row: {
             original: {
               created_on_delta_humanized: createdOn,
+              created_on: rawCreatedOn,
               created_by: createdBy,
             },
           },
         }: TaskCellProps) => (
-          <CreatedInfo date={createdOn ?? ''} user={createdBy ?? undefined} />
+          <CreatedInfo date={createdOn ?? ''} user={createdBy ?? undefined} rawDate={rawCreatedOn} />
         ),
         Header: t('Created'),
         accessor: 'created_on',

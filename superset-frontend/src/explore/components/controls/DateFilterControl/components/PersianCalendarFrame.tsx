@@ -330,7 +330,7 @@ export function PersianCalendarFrame({ onChange, value }: FrameComponentProps) {
   const rangePlaceholder = PERSIAN_TEXT.selectRangePlaceholder;
 
   return (
-    <Container $isRTL={true}>
+    <Container $isRTL>
       <SectionTitle>{titleText}</SectionTitle>
       <section>
         <SectionLabel>{selectRangeText}</SectionLabel>

@@ -24,6 +24,7 @@ import { SupersetClient, getClientErrorObject } from '@superset-ui/core';
 import { css, styled } from '@apache-superset/core/theme';
 import { extendedDayjs as dayjs } from '@superset-ui/core/utils/dates';
 import rison from 'rison';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 
 import { ConfirmStatusChange, DeleteModal } from '@superset-ui/core/components';
 import {
@@ -176,7 +177,7 @@ function AnnotationList({
           },
         }: {
           row: { original: AnnotationObject };
-        }) => dayjs(new Date(startDttm)).format('ll'),
+        }) => formatDateToPersian(startDttm, true),
         Header: t('Start'),
         accessor: 'start_dttm',
         id: 'start_dttm',
@@ -188,7 +189,7 @@ function AnnotationList({
           },
         }: {
           row: { original: AnnotationObject };
-        }) => dayjs(new Date(endDttm)).format('ll'),
+        }) => formatDateToPersian(endDttm, true),
         Header: t('End'),
         accessor: 'end_dttm',
         id: 'end_dttm',

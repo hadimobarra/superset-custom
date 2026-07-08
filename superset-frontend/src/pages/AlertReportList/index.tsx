@@ -27,6 +27,7 @@ import {
 } from '@superset-ui/core';
 import { css, styled } from '@apache-superset/core/theme';
 import { extendedDayjs } from '@superset-ui/core/utils/dates';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import {
   Tooltip,
   ConfirmStatusChange,
@@ -326,12 +327,7 @@ function AlertList({
             original: { last_eval_dttm: lastEvalDttm },
           },
         }: any) =>
-          lastEvalDttm
-            ? extendedDayjs
-                .utc(lastEvalDttm)
-                .local()
-                .format(DATETIME_WITH_TIME_ZONE)
-            : '',
+          lastEvalDttm ? formatDateToPersian(lastEvalDttm, true) : '',
         accessor: 'last_eval_dttm',
         Header: t('Last run'),
         size: 'lg',
@@ -392,10 +388,11 @@ function AlertList({
           row: {
             original: {
               changed_on_delta_humanized: changedOn,
+              changed_on: rawChangedOn,
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: any) => <ModifiedInfo date={changedOn} user={changedBy} rawDate={rawChangedOn} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',

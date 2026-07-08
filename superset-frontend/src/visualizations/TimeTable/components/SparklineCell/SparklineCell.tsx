@@ -17,7 +17,7 @@
  * under the License.
  */
 import { ReactElement, useMemo } from 'react';
-import { formatNumber, formatTime } from '@superset-ui/core';
+import { formatNumber } from '@superset-ui/core';
 import { useTheme } from '@apache-superset/core/theme';
 import { GridRows } from '@visx/grid';
 import { scaleLinear } from '@visx/scale';
@@ -32,7 +32,7 @@ import {
   type SeriesProps,
   AxisScale,
 } from '@visx/xychart';
-import { extendedDayjs } from '@superset-ui/core/utils/dates';
+import { formatDateToPersian } from 'src/utils/persianCalendar';
 import {
   getSparklineTextWidth,
   createYScaleConfig,
@@ -234,10 +234,7 @@ const SparklineCell = ({
                       fontSize: '12px',
                     })}
                   >
-                    {formatTime(
-                      dateFormat,
-                      extendedDayjs.utc(timeValue).toDate(),
-                    )}
+                    {formatDateToPersian(timeValue, true)}
                   </div>
                 )}
               </div>
